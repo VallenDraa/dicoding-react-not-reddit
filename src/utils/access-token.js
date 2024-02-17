@@ -1,29 +1,13 @@
-export const token = {
+export const tokenHandler = {
   /** @returns {string | null}   */
   getAccessToken() {
-    try {
-      return localStorage.getItem('access-token');
-    } catch (error) {
-      // TODO: Handle error
-      console.error(error.message);
-      return null;
-    }
+    return localStorage.getItem('access-token');
   },
   deleteAccessToken() {
-    try {
-      localStorage.removeItem('access-token');
-    } catch (error) {
-      // TODO: Handle error
-      console.error(error.message);
-    }
+    localStorage.removeItem('access-token');
   },
   /** @param {string} newToken */
   putAccessToken(newToken) {
-    try {
-      localStorage.setItem('access-token', newToken);
-    } catch (error) {
-      // TODO: Handle error
-      console.error(error.message);
-    }
+    localStorage.setItem('access-token', newToken);
   },
 };
