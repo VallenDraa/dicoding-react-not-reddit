@@ -1,4 +1,5 @@
-import { token } from '@/utils';
+/* eslint-disable no-param-reassign */
+import { tokenHandler } from '@/utils';
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
@@ -7,7 +8,7 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const accessToken = token.getAccessToken();
+    const accessToken = tokenHandler.getAccessToken();
 
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;

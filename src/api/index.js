@@ -3,4 +3,5 @@ export * from './comments.api';
 export * from './leaderboard.api';
 export * from './threads.api';
 export * from './users.api';
+export * from './auth-user.api';
 export * from './votes.api';

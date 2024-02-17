@@ -42,12 +42,12 @@
     }
   },
   "rules": {
+    "operator-linebreak": "off",
     "linebreak-style": "off",
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "dependencies": true,
         "devDependencies": true
       }
     ],
