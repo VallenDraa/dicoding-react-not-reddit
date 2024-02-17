@@ -4,7 +4,7 @@ import { axiosInstance, createResponse } from './api';
 export const leaderboardApi = {
   async seeLeaderboard() {
     try {
-      const response = await axiosInstance.get(`/leaderboards`);
+      const response = await axiosInstance.get('/leaderboards');
 
       return response.data;
     } catch (error) {
