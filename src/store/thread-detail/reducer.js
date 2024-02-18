@@ -8,6 +8,12 @@ export function threadDetailReducer(threadDetail = null, action = {}) {
     case THREAD_DETAIL_ACTION_TYPE.UNSET_THREAD_DETAIL:
       return null;
 
+    case THREAD_DETAIL_ACTION_TYPE.ADD_COMMENT:
+      return {
+        ...threadDetail,
+        comments: [action.payload.comment, ...threadDetail.comments],
+      };
+
     default:
       return threadDetail;
   }
