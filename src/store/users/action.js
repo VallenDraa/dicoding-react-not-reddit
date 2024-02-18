@@ -16,13 +16,13 @@ export function setUsersActionCreator(users) {
 
 export function asyncSeeAllUsers() {
   return async (dispatch) => {
-    const threadsData = await usersApi.seeAllUsers();
+    const usersData = await usersApi.seeAllUsers();
 
-    if (threadsData.status === 'fail') {
+    if (usersData.status === 'fail') {
       // ? Should we throw error in thunk functions?
-      throw new Error(threadsData.message);
+      throw new Error(usersData.message);
     }
 
-    dispatch(setUsersActionCreator(threadsData.data.users));
+    dispatch(setUsersActionCreator(usersData.data.users));
   };
 }
