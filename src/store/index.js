@@ -3,6 +3,7 @@ import { authUserReducer } from '@/store/auth-user';
 import { leaderboardReducer } from '@/store/leaderboard';
 import { threadsReducer } from '@/store/threads';
 import { threadDetailReducer } from '@/store/thread-detail';
+import { usersReducer } from '@/store/users';
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     leaderboard: leaderboardReducer,
     threads: threadsReducer,
     threadDetail: threadDetailReducer,
+    users: usersReducer,
   },
 });
