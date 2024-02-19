@@ -2,91 +2,92 @@ import { authUserApi } from '@/api';
 import { tokenHandler } from '@/utils';
 
 export const AUTH_USER_ACTION_TYPE = {
-  SET_AUTH_USER: 'SET_AUTH_USER',
-  UNSET_AUTH_USER: 'UNSET_AUTH_USER',
+  SET: 'SET_AUTH_USER',
+  UNSET: 'UNSET_AUTH_USER',
 };
 
-export function setAuthUserActionCreator(authUser) {
-  return {
-    type: AUTH_USER_ACTION_TYPE.SET_AUTH_USER,
-    payload: {
-      authUser,
-    },
-  };
-}
+export const authUserActions = {
+  set(authUser) {
+    return {
+      type: AUTH_USER_ACTION_TYPE.SET,
+      payload: {
+        authUser,
+      },
+    };
+  },
 
-export function unsetAuthUserActionCreator() {
-  return {
-    type: AUTH_USER_ACTION_TYPE.UNSET_AUTH_USER,
-    payload: {},
-  };
-}
+  unset() {
+    return {
+      type: AUTH_USER_ACTION_TYPE.UNSET,
+      payload: {},
+    };
+  },
+};
 
-export function asyncRegister({ name, email, password }) {
-  return async () => {
-    const response = await authUserApi.register({
-      name,
-      email,
-      password,
-    });
+export const authUserThunks = {
+  asyncRegister({ name, email, password }) {
+    return async () => {
+      const response = await authUserApi.register({
+        name,
+        email,
+        password,
+      });
 
-    if (response.status === 'fail') {
-      // TODO: Handle error
-      console.error(response.message);
-    }
-  };
-}
+      if (response.status === 'fail') {
+        // TODO: Handle error
+        throw new Error(response.message);
+      }
+    };
+  },
 
-export function asyncLogin({ email, password }) {
-  return async (dispatch) => {
-    const loginResponse = await authUserApi.login({
-      email,
-      password,
-    });
+  asyncLogin({ email, password }) {
+    return async (dispatch) => {
+      const loginResponse = await authUserApi.login({
+        email,
+        password,
+      });
 
-    if (loginResponse.status === 'fail') {
-      // TODO: Handle error
-      console.error(loginResponse.message);
-      return;
-    }
+      if (loginResponse.status === 'fail') {
+        // TODO: Handle error
+        throw new Error(loginResponse.message);
+      }
 
-    tokenHandler.putAccessToken(loginResponse.data.token);
+      tokenHandler.putAccessToken(loginResponse.data.token);
 
-    // Get user data from access token
-    const userResponse = await authUserApi.seeOwnProfile();
+      // Get user data from access token
+      const userResponse = await authUserApi.seeOwnProfile();
 
-    if (userResponse.status === 'fail') {
-      // TODO: Handle error
-      console.error(userResponse.message);
-      return;
-    }
+      if (userResponse.status === 'fail') {
+        // TODO: Handle error
+        throw new Error(userResponse.message);
+      }
 
-    dispatch(setAuthUserActionCreator(userResponse.data.user));
-  };
-}
+      dispatch(authUserActions.set(userResponse.data.user));
+    };
+  },
 
-export function asyncGetAuthUser() {
-  return async (dispatch) => {
-    const userResponse = await authUserApi.seeOwnProfile();
+  asyncGetAuthUser() {
+    return async (dispatch) => {
+      const userResponse = await authUserApi.seeOwnProfile();
 
-    if (userResponse.status === 'fail') {
-      // TODO: Handle error
-      console.error(userResponse.message);
-      return;
-    }
+      if (userResponse.status === 'fail') {
+        // TODO: Handle error
+        throw new Error(userResponse.message);
+      }
 
-    dispatch(setAuthUserActionCreator(userResponse.data.user));
-  };
-}
+      dispatch(authUserActions.set(userResponse.data.user));
+    };
+  },
 
-export function asyncLogout() {
-  return (dispatch) => {
-    try {
-      tokenHandler.deleteAccessToken();
-      dispatch(unsetAuthUserActionCreator());
-    } catch (error) {
-      // TODO: Handle error
-      console.error(error);
-    }
-  };
-}
+  asyncLogout() {
+    return (dispatch) => {
+      try {
+        tokenHandler.deleteAccessToken();
+        dispatch(authUserActions.unset());
+      } catch (error) {
+        // TODO: Handle error
+        throw new Error(error);
+      }
+    };
+  },
+};

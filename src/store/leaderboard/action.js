@@ -1,33 +1,37 @@
 import { leaderboardApi } from '@/api';
 
 export const LEADERBOARD_ACTION_TYPE = {
-  SET_LEADERBOARD: 'SET_LEADERBOARD',
-  UNSET_LEADERBOARD: 'UNSET_LEADERBOARD',
+  SET: 'SET_LEADERBOARD',
+  UNSET: 'UNSET_LEADERBOARD',
 };
 
-export function setLeaderboardActionCreator(leaderboard) {
-  return {
-    type: LEADERBOARD_ACTION_TYPE.SET_LEADERBOARD,
-    payload: { leaderboard },
-  };
-}
+export const leaderboardActions = {
+  set(leaderboard) {
+    return {
+      type: LEADERBOARD_ACTION_TYPE.SET,
+      payload: { leaderboard },
+    };
+  },
 
-export function unsetLeaderboardActionCreator() {
-  return {
-    type: LEADERBOARD_ACTION_TYPE.UNSET_LEADERBOARD,
-    payload: {},
-  };
-}
+  unset() {
+    return {
+      type: LEADERBOARD_ACTION_TYPE.UNSET,
+      payload: {},
+    };
+  },
+};
 
-export function asyncSetLeaderboard() {
-  return async (dispatch) => {
-    const leaderboardData = await leaderboardApi.seeLeaderboard();
+export const leaderboardThunks = {
+  asyncSetLeaderboard() {
+    return async (dispatch) => {
+      const leaderboardData = await leaderboardApi.seeLeaderboard();
 
-    if (leaderboardData.status === 'fail') {
-      // ? Should we throw error in thunk functions?
-      throw new Error(leaderboardData.message);
-    }
+      if (leaderboardData.status === 'fail') {
+        // ? Should we throw error in thunk functions?
+        throw new Error(leaderboardData.message);
+      }
 
-    dispatch(setLeaderboardActionCreator(leaderboardData.data.leaderboards));
-  };
-}
+      dispatch(leaderboardActions.set(leaderboardData.data.leaderboards));
+    };
+  },
+};
