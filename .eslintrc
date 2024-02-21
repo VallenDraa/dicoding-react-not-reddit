@@ -4,7 +4,7 @@
     "es2021": true
   },
   "extends": [
-    "plugin:prettier/recommended",
+    "prettier",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
@@ -12,6 +12,7 @@
     "airbnb"
   ],
   "plugins": [
+    "prettier",
     "react-refresh"
   ],
   "ignorePatterns": [
@@ -43,6 +44,13 @@
     }
   },
   "rules": {
+    "object-curly-newline": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     "operator-linebreak": "off",
     "linebreak-style": "off",
     "import/prefer-default-export": "off",
