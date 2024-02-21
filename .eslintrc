@@ -44,6 +44,8 @@
     }
   },
   "rules": {
+    "function-paren-newline": "off",
+    "implicit-arrow-linebreak": "off",
     "object-curly-newline": "off",
     "prettier/prettier": [
       "error",
