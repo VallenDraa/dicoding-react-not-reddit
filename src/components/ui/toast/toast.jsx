@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from '@/utils';
 import { IconAlertCircle, IconInfoCircle, IconX } from '@tabler/icons-react';
 import PropTypes from 'prop-types';
@@ -105,17 +106,20 @@ function ToastsDisplayer() {
     );
   }
 
-  return (
-    <div className="fixed bottom-4 right-4 space-y-2">
-      {toasts.map((data) => (
-        <ToastItem
-          key={data.id}
-          message={data.message}
-          type={data.type}
-          onClose={() => removeToast(data.id)}
-        />
-      ))}
-    </div>
+  return createPortal(
+    toasts.length > 0 ? (
+      <div className="fixed bottom-4 right-4 space-y-2">
+        {toasts.map((data) => (
+          <ToastItem
+            key={data.id}
+            message={data.message}
+            type={data.type}
+            onClose={() => removeToast(data.id)}
+          />
+        ))}
+      </div>
+    ) : null,
+    document.querySelector('body'),
   );
 }
 
