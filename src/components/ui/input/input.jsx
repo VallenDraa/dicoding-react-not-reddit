@@ -23,8 +23,8 @@ export function Input({
       onChange={handleChange}
       placeholder={placeholder}
       className={cn(
-        'bg-gray-100 px-6 py-3 text-gray-600 transition duration-200 placeholder:text-gray-400 focus-within:outline-none',
-        pill ? 'rounded-lg' : 'rounded-3xl',
+        'bg-gray-100 px-4 py-2 text-gray-600 transition duration-200 placeholder:text-gray-400 focus-within:outline-none',
+        pill ? 'rounded-3xl' : 'rounded-lg',
         className,
       )}
     />

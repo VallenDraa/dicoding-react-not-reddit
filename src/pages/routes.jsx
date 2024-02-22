@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { AuthLayout } from '@/components/layouts/auth-layout';
+import { MainLayout } from '@/components/layouts/main-layout';
 import { HomePage } from './home-page';
 import { LoginPage } from './login-page';
 import { RegisterPage } from './register-page';
@@ -8,12 +9,21 @@ import { ThreadDetailPage } from './thread-detail-page';
 
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <HomePage />,
-  },
-  {
-    path: '/threads/:threadId',
-    element: <ThreadDetailPage />,
+    element: <MainLayout />,
+    children: [
+      {
+        path: '/',
+        element: <HomePage />,
+      },
+      {
+        path: '/:category',
+        element: <HomePage />,
+      },
+      {
+        path: '/threads/:threadId',
+        element: <ThreadDetailPage />,
+      },
+    ],
   },
   {
     element: <AuthLayout />,
