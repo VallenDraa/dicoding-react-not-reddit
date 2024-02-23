@@ -44,6 +44,7 @@
     }
   },
   "rules": {
+    "react/jsx-props-no-spreading": "off",
     "function-paren-newline": "off",
     "implicit-arrow-linebreak": "off",
     "object-curly-newline": "off",

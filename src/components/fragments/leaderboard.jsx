@@ -1,46 +1,39 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { leaderboardThunks } from '@/store/leaderboard';
 import { Card } from '@/components/ui/card';
-import { toast } from '@/components/ui/toast';
 import { cn, formatNumber } from '@/utils';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useAsyncSelector } from '@/hooks';
+import PropTypes from 'prop-types';
 
-export function Leaderboard() {
-  const leaderboardData = useSelector((states) => states.leaderboard);
-  const [loading, setLoading] = React.useState(true);
+export function Leaderboard({ className }) {
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    (async () => {
-      try {
-        await dispatch(leaderboardThunks.asyncSetLeaderboard());
-      } catch (error) {
-        toast.error(error.message);
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, [dispatch]);
+  const [leaderboardData, isInitialized] = useAsyncSelector(
+    React.useCallback((states) => states.leaderboard, []),
+    React.useCallback(
+      () => dispatch(leaderboardThunks.asyncSetLeaderboard()),
+      [dispatch],
+    ),
+  );
 
   return (
-    <Card className="max-w-72 px-0">
+    <Card className={cn('px-0', className)}>
       <header className="mb-4 px-4">
         <h4 className="text-gray-700">Leaderboard</h4>
       </header>
       <ul
         className={cn(
           'flex max-h-80 flex-col gap-2 overflow-y-auto px-4 text-gray-600',
-          { 'divide-y divide-gray-200': !loading },
+          { 'divide-y divide-gray-200': !isInitialized },
         )}
       >
-        {loading ? (
-          <Skeleton gap={8} className="h-12 w-full" amount={6} />
-        ) : (
-          leaderboardData.map(({ user, score }) => (
+        {isInitialized ? (
+          leaderboardData?.map(({ user, score }) => (
             <li
               key={user.id}
-              className="flex items-center justify-between gap-2 pt-2"
+              className="flex items-center justify-between gap-2 pt-2 duration-300 animate-in fade-in"
             >
               <div className="flex items-center gap-2">
                 <img
@@ -54,8 +47,14 @@ export function Leaderboard() {
               <p className="text-base">{formatNumber(score)}</p>
             </li>
           ))
+        ) : (
+          <Skeleton gap={8} className="h-12 w-full" amount={6} />
         )}
       </ul>
     </Card>
   );
 }
+
+Leaderboard.propTypes = {
+  className: PropTypes.string.isRequired,
+};
