@@ -6,6 +6,7 @@ import { LoginPage } from './login-page';
 import { RegisterPage } from './register-page';
 import { NotFoundPage } from './not-found-page';
 import { ThreadDetailPage } from './thread-detail-page';
+import { NewThreadPage } from './new-thread-page';
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
       {
         path: '/:category',
         element: <HomePage />,
+      },
+      {
+        path: '/new-thread',
+        element: <NewThreadPage />,
       },
       {
         path: '/threads/:threadId',
