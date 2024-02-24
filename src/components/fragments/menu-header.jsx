@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Dropdown } from '@/components/ui/dropdown';
 import { toast } from '@/components/ui/toast';
 import { authUserThunks } from '@/store/auth-user';
+import { Link } from 'react-router-dom';
 
 export function MenuHeader({ isStoreInitialized }) {
   const dispatch = useDispatch();
@@ -27,12 +28,16 @@ export function MenuHeader({ isStoreInitialized }) {
   return (
     <header className="container sticky top-0 z-10 flex items-center justify-between gap-2 bg-white py-4 md:gap-4">
       {/* Logo */}
-      <div className="hidden md:block">
-        <h4 className="flex items-center gap-1 font-extrabold leading-tight text-teal-500">
+      <h4 className="font-extrabold leading-tight text-teal-500 ">
+        <Link
+          to="/"
+          className="flex items-center gap-1 font-extrabold leading-tight text-teal-500"
+        >
           <IconListDetails />
-          Not Reddit
-        </h4>
-      </div>
+
+          <span className="hidden md:inline">Not Reddit</span>
+        </Link>
+      </h4>
 
       {/* Search bar */}
       <Input
@@ -43,7 +48,6 @@ export function MenuHeader({ isStoreInitialized }) {
         placeholder="Search Posts"
         className="grow"
       />
-
       {/* User  */}
       <div>
         {!isStoreInitialized && (

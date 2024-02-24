@@ -1,41 +1,26 @@
 import React from 'react';
-import { Leaderboard } from '@/components/fragments/leaderboard';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { threadsThunks } from '@/store/threads';
-import { Thread, ThreadsList } from '@/components/fragments';
-import { toast } from '@/components/ui/toast';
 import {
-  useNavigate,
-  useOutletContext as useMainLayoutOutletContext,
-} from 'react-router-dom';
+  Thread,
+  ThreadsList,
+  Leaderboard,
+  CategoryList,
+} from '@/components/fragments';
+
+import { useOutletContext as useMainLayoutOutletContext } from 'react-router-dom';
 import { Skeleton } from '@/components/ui/skeleton';
-import { leaderboardThunks } from '@/store/leaderboard';
-import { CategoryList } from '@/components/fragments/category-list';
+import { useVoteFactory } from '@/hooks';
 
 export function HomePage() {
   const { isInitialized } = useMainLayoutOutletContext();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const threads = useSelector((states) => states.threads);
   const authUser = useSelector((states) => states.authUser);
 
-  const threadVoteFactory = (voteThunk) => async (threadId) => {
-    try {
-      if (!authUser?.id) {
-        navigate('/login');
-        return;
-      }
-
-      await dispatch(voteThunk(threadId));
-      await dispatch(leaderboardThunks.asyncSetLeaderboard());
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
+  const threads = useSelector((states) => states.threads);
+  const threadVoteFactory = useVoteFactory();
 
   return (
-    <section className="container mt-4 flex flex-col-reverse items-start gap-6 md:flex-row md:gap-4">
+    <div className="container mt-4 flex flex-col-reverse items-start gap-6 md:flex-row md:gap-4">
       <ThreadsList title="Latest Threads" className="grow basis-3/4 animate-in">
         {isInitialized ? (
           threads?.map((thread) => (
@@ -65,6 +50,6 @@ export function HomePage() {
         <Leaderboard />
         <CategoryList />
       </div>
-    </section>
+    </div>
   );
 }
