@@ -1,15 +1,28 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { IconListDetails } from '@tabler/icons-react';
+import { useSelector, useDispatch } from 'react-redux';
+import { IconListDetails, IconLogout } from '@tabler/icons-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '../ui/skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Dropdown } from '@/components/ui/dropdown';
+import { toast } from '@/components/ui/toast';
+import { authUserThunks } from '@/store/auth-user';
 
 export function MenuHeader({ isStoreInitialized }) {
+  const dispatch = useDispatch();
   const authUser = useSelector((states) => states.authUser);
 
+  const [isUserMenuOpen, setIsUserMenuOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState('');
+
+  const handleLogout = async () => {
+    try {
+      await dispatch(authUserThunks.asyncLogout());
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <header className="container sticky top-0 z-10 flex items-center justify-between gap-2 bg-white py-4 md:gap-4">
@@ -44,19 +57,29 @@ export function MenuHeader({ isStoreInitialized }) {
         )}
 
         {isStoreInitialized && authUser && (
-          <Button
-            pill
-            variant="outline-primary"
-            size="small"
-            className="flex items-center gap-2"
-          >
-            <img
-              src={authUser.avatar}
-              alt={authUser.name}
-              className="size-8 rounded-full border border-white"
-            />
-            <p className="max-w-32 truncate">{authUser.name}</p>
-          </Button>
+          <Dropdown open={isUserMenuOpen} onToggle={setIsUserMenuOpen}>
+            <Dropdown.Trigger>
+              <Button
+                pill
+                variant="outline-primary"
+                size="small"
+                className="flex items-center gap-2"
+              >
+                <img
+                  src={authUser.avatar}
+                  alt={authUser.name}
+                  className="size-8 rounded-full border border-white"
+                />
+                <p className="max-w-32 truncate">{authUser.name}</p>
+              </Button>
+            </Dropdown.Trigger>
+            <Dropdown.Body>
+              <Dropdown.Item onClick={handleLogout}>
+                <IconLogout size={20} />
+                Log Out
+              </Dropdown.Item>
+            </Dropdown.Body>
+          </Dropdown>
         )}
       </div>
     </header>
