@@ -56,7 +56,7 @@ export const threadsAction = {
   },
 };
 
-export const threadsThunk = {
+export const threadsThunks = {
   // Thread thunk
   asyncSet() {
     return async (dispatch) => {
@@ -76,31 +76,31 @@ export const threadsThunk = {
     return async (dispatch, getState) => {
       const { authUser } = getState();
 
-      const threadsData = await votesApi.upvoteThread(threadId);
-
-      if (threadsData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
-        throw new Error(threadsData.message);
-      }
-
       dispatch(
         threadsAction.upvote({
           threadId,
           userId: authUser.id,
         }),
       );
+
+      const threadsData = await votesApi.upvoteThread(threadId);
+
+      if (threadsData.status === 'fail') {
+        dispatch(
+          threadsAction.neutralizeUpVote({
+            threadId,
+            userId: authUser.id,
+          }),
+        );
+
+        // ? Should we throw error in thunk functions?
+        throw new Error(threadsData.message);
+      }
     };
   },
   asyncDownvote(threadId) {
     return async (dispatch, getState) => {
       const { authUser } = getState();
-
-      const threadsData = await votesApi.downvoteThread(threadId);
-
-      if (threadsData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
-        throw new Error(threadsData.message);
-      }
 
       dispatch(
         threadsAction.downvote({
@@ -108,18 +108,25 @@ export const threadsThunk = {
           userId: authUser.id,
         }),
       );
+
+      const threadsData = await votesApi.downvoteThread(threadId);
+
+      if (threadsData.status === 'fail') {
+        dispatch(
+          threadsAction.neutralizeDownVote({
+            threadId,
+            userId: authUser.id,
+          }),
+        );
+
+        // ? Should we throw error in thunk functions?
+        throw new Error(threadsData.message);
+      }
     };
   },
   asyncNeutralizeUpVote(threadId) {
     return async (dispatch, getState) => {
       const { authUser } = getState();
-
-      const threadsData = await votesApi.neutralizeThreadVote(threadId);
-
-      if (threadsData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
-        throw new Error(threadsData.message);
-      }
 
       dispatch(
         threadsAction.neutralizeUpVote({
@@ -127,18 +134,25 @@ export const threadsThunk = {
           userId: authUser.id,
         }),
       );
+
+      const threadsData = await votesApi.neutralizeThreadVote(threadId);
+
+      if (threadsData.status === 'fail') {
+        dispatch(
+          threadsAction.upvote({
+            threadId,
+            userId: authUser.id,
+          }),
+        );
+
+        // ? Should we throw error in thunk functions?
+        throw new Error(threadsData.message);
+      }
     };
   },
   asyncNeutralizeDownVote(threadId) {
     return async (dispatch, getState) => {
       const { authUser } = getState();
-
-      const threadsData = await votesApi.neutralizeThreadVote(threadId);
-
-      if (threadsData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
-        throw new Error(threadsData.message);
-      }
 
       dispatch(
         threadsAction.neutralizeDownVote({
@@ -146,6 +160,20 @@ export const threadsThunk = {
           userId: authUser.id,
         }),
       );
+
+      const threadsData = await votesApi.neutralizeThreadVote(threadId);
+
+      if (threadsData.status === 'fail') {
+        dispatch(
+          threadsAction.downvote({
+            threadId,
+            userId: authUser.id,
+          }),
+        );
+
+        // ? Should we throw error in thunk functions?
+        throw new Error(threadsData.message);
+      }
     };
   },
 };

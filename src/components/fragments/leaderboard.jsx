@@ -1,32 +1,28 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { leaderboardThunks } from '@/store/leaderboard';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Card } from '@/components/ui/card';
 import { cn, formatNumber } from '@/utils';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useAsyncSelector } from '@/hooks';
-import PropTypes from 'prop-types';
+import { useOutletContext as useMainLayoutOutletContext } from 'react-router-dom';
 
 export function Leaderboard({ className }) {
-  const dispatch = useDispatch();
+  const { isInitialized } = useMainLayoutOutletContext();
+  const leaderboardData = useSelector((states) => states.leaderboard);
 
-  const [leaderboardData, isInitialized] = useAsyncSelector(
-    React.useCallback((states) => states.leaderboard, []),
-    React.useCallback(
-      () => dispatch(leaderboardThunks.asyncSetLeaderboard()),
-      [dispatch],
-    ),
-  );
+  if (isInitialized === undefined) {
+    throw new Error('Please use inside the main layout outlet!');
+  }
 
   return (
     <Card className={cn('px-0', className)}>
-      <header className="mb-4 px-4">
+      <header className="mb-2 px-4">
         <h4 className="text-gray-700">Leaderboard</h4>
       </header>
       <ul
         className={cn(
           'flex max-h-80 flex-col gap-2 overflow-y-auto px-4 text-gray-600',
-          { 'divide-y divide-gray-200': !isInitialized },
+          { 'divide-y divide-gray-200': isInitialized },
         )}
       >
         {isInitialized ? (
@@ -37,7 +33,7 @@ export function Leaderboard({ className }) {
             >
               <div className="flex items-center gap-2">
                 <img
-                  className="size-9 rounded-full"
+                  className="size-9 rounded-full ring-[1px] ring-teal-500 ring-offset-2"
                   src={user.avatar}
                   alt={user.name}
                 />
@@ -56,5 +52,9 @@ export function Leaderboard({ className }) {
 }
 
 Leaderboard.propTypes = {
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
+};
+
+Leaderboard.defaultProps = {
+  className: '',
 };
