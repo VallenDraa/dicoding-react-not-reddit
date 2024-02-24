@@ -34,7 +34,7 @@ export function Dropdown({ children, open, onToggle }) {
 
   return (
     <DropdownContext.Provider value={providerValue}>
-      <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
+      <FocusTrap active={isOpen} focusTrapOptions={{ allowOutsideClick: true }}>
         <div className="relative">{children}</div>
       </FocusTrap>
     </DropdownContext.Provider>
