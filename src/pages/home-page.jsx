@@ -8,7 +8,11 @@ import {
   CategoryList,
 } from '@/components/fragments';
 
-import { useOutletContext as useMainLayoutOutletContext } from 'react-router-dom';
+import {
+  useSearchParams,
+  useParams,
+  useOutletContext as useMainLayoutOutletContext,
+} from 'react-router-dom';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useVoteFactory } from '@/hooks';
 
@@ -16,14 +20,39 @@ export function HomePage() {
   const { isInitialized } = useMainLayoutOutletContext();
   const authUser = useSelector((states) => states.authUser);
 
-  const threads = useSelector((states) => states.threads);
+  const { category } = useParams();
+  const [searchParams] = useSearchParams();
+  const keyword = searchParams.get('keyword');
+
   const threadVoteFactory = useVoteFactory();
+  const threads = useSelector((states) => states.threads);
+  const filteredThreads = React.useMemo(() => {
+    let finalResult = threads ?? [];
+
+    if (category) {
+      finalResult = finalResult?.filter(
+        (thread) => thread.category === category,
+      );
+    }
+
+    if (keyword) {
+      const lowerCasedKeyword = keyword.toLowerCase();
+
+      finalResult = finalResult.filter(
+        (thread) =>
+          thread.title.toLowerCase().includes(lowerCasedKeyword) ||
+          thread.body.toLowerCase().includes(lowerCasedKeyword),
+      );
+    }
+
+    return finalResult;
+  }, [threads, category, keyword]);
 
   return (
     <div className="container mt-4 flex flex-col-reverse items-start gap-6 md:flex-row md:gap-4">
       <ThreadsList title="Latest Threads" className="grow basis-3/4 animate-in">
         {isInitialized ? (
-          threads?.map((thread) => (
+          filteredThreads?.map((thread) => (
             <Thread
               authUserId={authUser?.id}
               onUpvote={threadVoteFactory(threadsThunks.asyncUpvote)}
@@ -46,9 +75,9 @@ export function HomePage() {
 
       <hr className="w-full border-gray-300 md:hidden" />
 
-      <div className="top-20 flex w-full flex-col gap-4 md:sticky md:w-auto md:basis-72">
-        <Leaderboard />
+      <div className="top-20 flex w-full flex-col-reverse gap-4 md:sticky md:w-auto md:basis-72">
         <CategoryList />
+        <Leaderboard />
       </div>
     </div>
   );

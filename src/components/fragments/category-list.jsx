@@ -36,7 +36,7 @@ export function CategoryList({ className }) {
             <li key={category} className="duration-300 animate-in fade-in">
               <Button
                 size="small"
-                to={`/${category}`}
+                to={activeCategory === category ? '/' : `/${category}`}
                 variant={
                   activeCategory === category ? 'primary' : 'outline-primary'
                 }

@@ -8,14 +8,32 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Dropdown } from '@/components/ui/dropdown';
 import { toast } from '@/components/ui/toast';
 import { authUserThunks } from '@/store/auth-user';
-import { Link } from 'react-router-dom';
+import {
+  Link,
+  useSearchParams,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 
 export function MenuHeader({ isStoreInitialized }) {
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const authUser = useSelector((states) => states.authUser);
 
   const [isUserMenuOpen, setIsUserMenuOpen] = React.useState(false);
+
+  const { category } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = React.useState('');
+
+  React.useEffect(() => {
+    if (searchQuery && !category) {
+      navigate('/');
+    }
+
+    setSearchParams({ keyword: searchQuery });
+  }, [searchParams, searchQuery, navigate, setSearchParams, category]);
 
   const handleLogout = async () => {
     try {
