@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { threadValidator } from '@/utils/validator';
 import { useSelector } from 'react-redux';
-import { useHandleVote } from '@/hooks/use-handle-vote';
+import { useHandleThreadVote } from '@/hooks/use-handle-thread-vote';
 import { ThreadFragment } from './thread-fragment';
 
 export function Thread({
@@ -23,7 +23,7 @@ export function Thread({
     [ownerId, users],
   );
 
-  const { handleDownvoteLogic, handleUpvoteLogic } = useHandleVote({
+  const { handleDownvoteLogic, handleUpvoteLogic } = useHandleThreadVote({
     threadId,
     authUserId,
     downVotesBy,

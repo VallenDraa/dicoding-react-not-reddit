@@ -79,7 +79,7 @@ export function threadDetailReducer(threadDetail = null, action = {}) {
           if (comment.id === action.payload.commentId) {
             return {
               ...comment,
-              upVotesBy: comment.upVotesBy.map(
+              upVotesBy: comment.upVotesBy.filter(
                 (userId) => userId !== action.payload.userId,
               ),
             };
@@ -96,7 +96,7 @@ export function threadDetailReducer(threadDetail = null, action = {}) {
           if (comment.id === action.payload.commentId) {
             return {
               ...comment,
-              upVotesBy: comment.upVotesBy.map(
+              downVotesBy: comment.downVotesBy.filter(
                 (userId) => userId !== action.payload.userId,
               ),
             };

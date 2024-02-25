@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Dropdown } from '@/components/ui/dropdown';
 import { toast } from '@/components/ui/toast';
+import { Avatar } from '@/components/ui/avatar';
 import { authUserThunks } from '@/store/auth-user';
 import {
   Link,
@@ -87,10 +88,10 @@ export function MenuHeader({ isStoreInitialized }) {
                 size="small"
                 className="flex items-center gap-2"
               >
-                <img
-                  src={authUser.avatar}
-                  alt={authUser.name}
-                  className="size-8 rounded-full border border-white"
+                <Avatar
+                  image={authUser.avatar}
+                  name={authUser.name}
+                  className="size-8 border border-white ring-0"
                 />
                 <p className="max-w-32 truncate">{authUser.name}</p>
               </Button>

@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { threadDetailValidator } from '@/utils/validator';
-import { useHandleVote } from '@/hooks/use-handle-vote';
+import { useHandleThreadVote } from '@/hooks/use-handle-thread-vote';
 import { cn } from '@/utils';
 import { ThreadFragment } from './thread-fragment';
 
@@ -17,7 +17,7 @@ export function ThreadDetail({
 }) {
   const { id: threadId, upVotesBy, downVotesBy, comments } = threadDetail;
 
-  const { handleDownvoteLogic, handleUpvoteLogic } = useHandleVote({
+  const { handleDownvoteLogic, handleUpvoteLogic } = useHandleThreadVote({
     threadId,
     authUserId,
     downVotesBy,

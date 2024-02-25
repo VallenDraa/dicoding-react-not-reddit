@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Card } from '@/components/ui/card';
 import { cn, formatNumber } from '@/utils';
+import { Card } from '@/components/ui/card';
+import { Avatar } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useOutletContext as useMainLayoutOutletContext } from 'react-router-dom';
 
@@ -32,10 +33,10 @@ export function Leaderboard({ className }) {
               className="flex items-center justify-between gap-2 pt-2 duration-300 animate-in fade-in"
             >
               <div className="flex items-center gap-2">
-                <img
-                  className="size-9 rounded-full ring-[1px] ring-teal-500 ring-offset-2"
-                  src={user.avatar}
-                  alt={user.name}
+                <Avatar
+                  className="size-9"
+                  image={user.avatar}
+                  name={user.name}
                 />
                 <p className="max-w-32 truncate text-sm">{user.name}</p>
               </div>

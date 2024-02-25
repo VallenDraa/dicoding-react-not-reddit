@@ -1,4 +1,4 @@
-export function useHandleVote({
+export function useHandleThreadVote({
   upVotesBy,
   downVotesBy,
   authUserId,
@@ -12,7 +12,6 @@ export function useHandleVote({
     if (!authUserId) {
       return;
     }
-
     if (upVotesBy.includes(authUserId)) {
       onNeutralizeUpvote(threadId);
     } else {

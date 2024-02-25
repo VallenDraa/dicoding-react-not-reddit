@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Avatar } from '@/components/ui/avatar';
 import { Link } from 'react-router-dom';
 import { ownerValidator } from '@/utils/validator';
 import {
@@ -57,11 +58,7 @@ export function ThreadFragment({
 
         <div className="flex items-center gap-2 pt-1 text-sm text-gray-400">
           <div className="flex items-center gap-2">
-            <img
-              className="size-5 rounded-full ring-[1px] ring-teal-500 ring-offset-2"
-              src={owner.avatar}
-              alt={owner.name}
-            />
+            <Avatar className="size-5" image={owner.avatar} name={owner.name} />
             <p className="max-w-32 truncate text-sm">{owner.name}</p>
           </div>
           <span>•</span>
