@@ -39,7 +39,7 @@ export function ThreadFragment({
   return (
     <Card className={cn(className)}>
       <Button
-        to={`/${category}`}
+        to={`/nr/${category}`}
         variant="link"
         className="mb-0.5 inline-block px-0 font-bold text-teal-500"
       >
@@ -47,7 +47,7 @@ export function ThreadFragment({
       </Button>
 
       <div className="mb-3">
-        <h3 className="text-gray-700">
+        <h3 className="break-words text-gray-700">
           <Link
             className="underline-offset-2 hover:underline"
             to={`/threads/${threadId}`}
@@ -67,7 +67,7 @@ export function ThreadFragment({
       </div>
 
       <div
-        className="mb-4 border-b border-gray-200 py-2 text-gray-600"
+        className="mb-4 w-full break-words border-b border-gray-200 py-2 text-gray-600"
         dangerouslySetInnerHTML={{ __html: body }}
       />
 

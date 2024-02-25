@@ -7,38 +7,46 @@ import { RegisterPage } from './register-page';
 import { NotFoundPage } from './not-found-page';
 import { ThreadDetailPage } from './thread-detail-page';
 import { NewThreadPage } from './new-thread-page';
+import { ProtectedRoute } from './protected-route';
 
 export const router = createBrowserRouter([
   {
+    path: '/',
     element: <MainLayout />,
     children: [
       {
-        path: '/',
+        index: true,
         element: <HomePage />,
       },
       {
-        path: '/:category',
+        path: 'nr/:category',
+        index: true,
         element: <HomePage />,
       },
       {
-        path: '/new-thread',
-        element: <NewThreadPage />,
+        path: 'threads/new',
+        element: (
+          <ProtectedRoute>
+            <NewThreadPage />
+          </ProtectedRoute>
+        ),
       },
       {
-        path: '/threads/:threadId',
+        path: 'threads/:threadId',
         element: <ThreadDetailPage />,
       },
     ],
   },
   {
+    path: '/',
     element: <AuthLayout />,
     children: [
       {
-        path: '/login',
+        path: 'login',
         element: <LoginPage />,
       },
       {
-        path: '/register',
+        path: 'register',
         element: <RegisterPage />,
       },
     ],

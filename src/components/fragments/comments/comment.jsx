@@ -70,7 +70,7 @@ export function Comment({
       </div>
 
       <div
-        className="mb-4 border-b border-gray-200 py-2 text-gray-600"
+        className="mb-4 break-words border-b border-gray-200 py-2 text-gray-600"
         dangerouslySetInnerHTML={{ __html: content }}
       />
 

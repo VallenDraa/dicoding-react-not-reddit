@@ -1,6 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
 import React from 'react';
-import { Leaderboard, CategoryList } from '@/components/fragments';
+import {
+  Leaderboard,
+  CategoryList,
+  NewThreadButton,
+} from '@/components/fragments';
 import { useAsyncSelector, useVoteFactory } from '@/hooks';
 import {
   useOutletContext as useMainLayoutOutletContext,
@@ -45,7 +49,7 @@ export function ThreadDetailPage() {
   return (
     <div className="container mt-4 flex flex-col items-start gap-6 md:flex-row md:gap-4">
       {isInitialized && isThreadDetailInitialized ? (
-        <div className="w-full grow basis-3/4 md:max-w-[70%]">
+        <div className="w-full md:w-3/4">
           <ThreadDetail
             className="rounded-b-none border-b-0 duration-300 animate-in fade-in"
             authUserId={authUser?.id}
@@ -107,7 +111,8 @@ export function ThreadDetailPage() {
 
       <hr className="w-full border-gray-300 md:hidden" />
 
-      <div className="top-20 flex w-full flex-col gap-4 md:sticky md:w-auto md:basis-72">
+      <div className="top-20 flex w-full flex-col gap-4 md:sticky md:w-1/4">
+        <NewThreadButton />
         <CategoryList />
         <Leaderboard />
       </div>

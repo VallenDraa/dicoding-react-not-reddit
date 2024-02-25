@@ -13,28 +13,20 @@ import {
   Link,
   useSearchParams,
   useNavigate,
-  useParams,
+  useLocation,
 } from 'react-router-dom';
 
 export function MenuHeader({ isStoreInitialized }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const dispatch = useDispatch();
   const authUser = useSelector((states) => states.authUser);
 
   const [isUserMenuOpen, setIsUserMenuOpen] = React.useState(false);
 
-  const { category } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchQuery, setSearchQuery] = React.useState('');
-
-  React.useEffect(() => {
-    if (searchQuery && !category) {
-      navigate('/');
-    }
-
-    setSearchParams({ keyword: searchQuery });
-  }, [searchParams, searchQuery, navigate, setSearchParams, category]);
+  const keyword = searchParams.get('keyword');
 
   const handleLogout = async () => {
     try {
@@ -44,8 +36,16 @@ export function MenuHeader({ isStoreInitialized }) {
     }
   };
 
+  const handleChange = (newKeyword) => {
+    if (location.pathname !== '/' && !location.pathname.includes('/nr')) {
+      navigate('/');
+    }
+
+    setSearchParams({ keyword: newKeyword });
+  };
+
   return (
-    <header className="container sticky top-0 z-10 flex items-center justify-between gap-2 bg-white py-4 md:gap-4">
+    <header className="container sticky top-0 z-20 flex items-center justify-between gap-2 bg-white py-4 md:gap-4">
       {/* Logo */}
       <h4 className="font-extrabold leading-tight text-teal-500 ">
         <Link
@@ -62,8 +62,8 @@ export function MenuHeader({ isStoreInitialized }) {
       <Input
         pill
         type="search"
-        value={searchQuery}
-        onChange={setSearchQuery}
+        value={keyword ?? ''}
+        onChange={handleChange}
         placeholder="Search Posts"
         className="grow"
       />

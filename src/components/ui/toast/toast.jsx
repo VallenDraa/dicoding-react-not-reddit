@@ -29,7 +29,7 @@ function ToastItem({ message, type, onClose }) {
     <div
       ref={ref}
       role="alert"
-      className={cn('flex overflow-clip rounded-md duration-300', {
+      className={cn('flex overflow-clip rounded-md shadow duration-300', {
         'bg-gray-50 text-gray-900': type === 'info',
         'bg-red-100 text-red-400': type === 'error',
       })}

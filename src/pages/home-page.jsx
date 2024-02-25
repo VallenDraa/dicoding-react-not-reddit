@@ -1,7 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { threadsThunks } from '@/store/threads';
-import { Leaderboard, CategoryList } from '@/components/fragments';
+import {
+  Leaderboard,
+  CategoryList,
+  NewThreadButton,
+} from '@/components/fragments';
 
 import {
   useSearchParams,
@@ -48,7 +52,7 @@ export function HomePage() {
     <div className="container mt-4 flex flex-col-reverse items-start gap-6 md:flex-row md:gap-4">
       <ThreadsList
         title="Latest Threads"
-        className="w-full grow basis-3/4 animate-in"
+        className="w-full animate-in md:w-3/4"
       >
         {isInitialized ? (
           filteredThreads?.map((thread) => (
@@ -79,7 +83,8 @@ export function HomePage() {
 
       <hr className="w-full border-gray-300 md:hidden" />
 
-      <aside className="top-20 flex w-full flex-col-reverse gap-4 md:sticky md:w-auto md:basis-72 md:flex-col">
+      <aside className="top-20 flex w-full flex-col-reverse gap-4 md:sticky md:w-1/4 md:flex-col">
+        <NewThreadButton />
         <CategoryList />
         <Leaderboard />
       </aside>

@@ -2,6 +2,9 @@ import { THREADS_ACTION_TYPE } from './action';
 
 export function threadsReducer(threads = null, action = {}) {
   switch (action.type) {
+    case THREADS_ACTION_TYPE.CREATE:
+      return [action.payload.thread, ...threads];
+
     case THREADS_ACTION_TYPE.SET:
       return action.payload.threads;
 

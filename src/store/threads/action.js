@@ -2,6 +2,7 @@ import { threadsApi, votesApi } from '@/api';
 
 export const THREADS_ACTION_TYPE = {
   // Thread action types
+  CREATE: 'CREATE_THREADS',
   SET: 'SET_THREADS',
   UNSET: 'UNSET_THREADS',
 
@@ -14,6 +15,14 @@ export const THREADS_ACTION_TYPE = {
 
 export const threadsAction = {
   // Thread actions
+  create(thread) {
+    return {
+      type: THREADS_ACTION_TYPE.CREATE,
+      payload: {
+        thread,
+      },
+    };
+  },
   set(threads) {
     return {
       type: THREADS_ACTION_TYPE.SET,
@@ -58,6 +67,22 @@ export const threadsAction = {
 
 export const threadsThunks = {
   // Thread thunk
+  asyncCreate({ title, body, category }) {
+    return async (dispatch) => {
+      const threadsData = await threadsApi.createThread({
+        title,
+        body,
+        category,
+      });
+
+      if (threadsData.status === 'fail') {
+        // ? Should we throw error in thunk functions?
+        throw new Error(threadsData.message);
+      }
+
+      dispatch(threadsAction.create(threadsData.data.thread));
+    };
+  },
   asyncSet() {
     return async (dispatch) => {
       const threadsData = await threadsApi.seeAllThreads();
