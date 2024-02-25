@@ -1,12 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { threadsThunks } from '@/store/threads';
-import {
-  Thread,
-  ThreadsList,
-  Leaderboard,
-  CategoryList,
-} from '@/components/fragments';
+import { Leaderboard, CategoryList } from '@/components/fragments';
 
 import {
   useSearchParams,
@@ -15,6 +10,7 @@ import {
 } from 'react-router-dom';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useVoteFactory } from '@/hooks';
+import { Thread, ThreadsList } from '@/components/fragments/threads';
 
 export function HomePage() {
   const { isInitialized } = useMainLayoutOutletContext();
@@ -50,7 +46,10 @@ export function HomePage() {
 
   return (
     <div className="container mt-4 flex flex-col-reverse items-start gap-6 md:flex-row md:gap-4">
-      <ThreadsList title="Latest Threads" className="grow basis-3/4 animate-in">
+      <ThreadsList
+        title="Latest Threads"
+        className="w-full grow basis-3/4 animate-in"
+      >
         {isInitialized ? (
           filteredThreads?.map((thread) => (
             <Thread
@@ -69,7 +68,12 @@ export function HomePage() {
             />
           ))
         ) : (
-          <Skeleton gap={16} amount={4} className="h-60 w-full" />
+          <Skeleton
+            amount={4}
+            gap={16}
+            skeletonWrapperClassName="grow w-full basis-3/4 md:w-auto"
+            className="h-60"
+          />
         )}
       </ThreadsList>
 
