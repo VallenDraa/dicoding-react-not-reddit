@@ -11,7 +11,7 @@ export function CommentInput({ className, onSubmit }) {
   const [newComment, setNewComment] = React.useState('');
 
   const handleCommentChange = (newInputComment) => {
-    setNewComment(newInputComment);
+    setNewComment(newInputComment === '<p><br></p>' ? '' : newInputComment);
   };
 
   const handleSubmit = () => {
