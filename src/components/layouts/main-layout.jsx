@@ -6,6 +6,8 @@ import { usersThunks } from '@/store/users';
 import { threadsThunks } from '@/store/threads';
 import { authUserThunks } from '@/store/auth-user';
 import { leaderboardThunks } from '@/store/leaderboard';
+import { toast } from '@/components/ui/toast';
+import { tokenHandler } from '@/utils';
 
 export function MainLayout() {
   // Initialize store
@@ -15,10 +17,17 @@ export function MainLayout() {
   React.useEffect(() => {
     (async () => {
       if (!isInitialized) {
-        await dispatch(authUserThunks.asyncGetAuthUser());
-        await dispatch(leaderboardThunks.asyncSetLeaderboard());
-        await dispatch(usersThunks.asyncSeeAllUsers());
-        await dispatch(threadsThunks.asyncSet());
+        try {
+          if (tokenHandler.getAccessToken()) {
+            await dispatch(authUserThunks.asyncGetAuthUser());
+          }
+
+          await dispatch(leaderboardThunks.asyncSetLeaderboard());
+          await dispatch(usersThunks.asyncSeeAllUsers());
+          await dispatch(threadsThunks.asyncSet());
+        } catch (error) {
+          toast.error(error.message);
+        }
 
         setIsInitialized(true);
       }

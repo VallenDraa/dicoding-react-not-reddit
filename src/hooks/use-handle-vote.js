@@ -9,6 +9,10 @@ export function useHandleVote({
   threadId,
 }) {
   const handleUpvoteLogic = () => {
+    if (!authUserId) {
+      return;
+    }
+
     if (upVotesBy.includes(authUserId)) {
       onNeutralizeUpvote(threadId);
     } else {
@@ -18,6 +22,10 @@ export function useHandleVote({
   };
 
   const handleDownvoteLogic = () => {
+    if (!authUserId) {
+      return;
+    }
+
     if (downVotesBy.includes(authUserId)) {
       onNeutralizeDownvote(threadId);
     } else {

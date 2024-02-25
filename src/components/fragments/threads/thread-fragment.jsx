@@ -76,7 +76,7 @@ export function ThreadFragment({
 
       <div className="flex grow items-center justify-between gap-2">
         <div className="flex gap-1">
-          <Button withIcon pill onClick={onUpvote}>
+          <Button disabled={!authUserId} withIcon pill onClick={onUpvote}>
             <span className="sr-only">Upvote</span>
             {upVotesBy.includes(authUserId) ? (
               <IconArrowBigUpFilled size={20} />
@@ -86,7 +86,7 @@ export function ThreadFragment({
 
             <span>{upVotesBy.length}</span>
           </Button>
-          <Button withIcon pill onClick={onDownvote}>
+          <Button disabled={!authUserId} withIcon pill onClick={onDownvote}>
             <span className="sr-only">Downvote</span>
             {downVotesBy.includes(authUserId) ? (
               <IconArrowBigDownFilled size={20} />
@@ -111,7 +111,7 @@ ThreadFragment.propTypes = {
   className: PropTypes.string,
   onUpvote: PropTypes.func.isRequired,
   onDownvote: PropTypes.func.isRequired,
-  authUserId: PropTypes.string.isRequired,
+  authUserId: PropTypes.string,
   thread: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -127,4 +127,5 @@ ThreadFragment.propTypes = {
 
 ThreadFragment.defaultProps = {
   className: '',
+  authUserId: undefined,
 };

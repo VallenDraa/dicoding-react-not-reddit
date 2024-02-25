@@ -40,7 +40,7 @@ export function ThreadDetail({
 }
 
 ThreadDetail.propTypes = {
-  authUserId: PropTypes.string.isRequired,
+  authUserId: PropTypes.string,
   className: PropTypes.string,
   onUpvote: PropTypes.func.isRequired,
   onDownvote: PropTypes.func.isRequired,
@@ -51,4 +51,5 @@ ThreadDetail.propTypes = {
 
 ThreadDetail.defaultProps = {
   className: '',
+  authUserId: undefined,
 };

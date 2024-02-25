@@ -31,7 +31,7 @@ export function ThreadDetailPage() {
       {isInitialized && isThreadDetailInitialized ? (
         <ThreadDetail
           className="grow duration-300 animate-in fade-in"
-          authUserId={authUser.id}
+          authUserId={authUser?.id}
           threadDetail={threadDetail}
           onUpvote={threadVoteFactory(threadDetailThunks.asyncUpvote)}
           onDownvote={threadVoteFactory(threadDetailThunks.asyncDownvote)}
