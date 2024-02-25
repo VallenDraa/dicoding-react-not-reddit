@@ -35,15 +35,15 @@ export function MainLayout() {
   }, [isInitialized, dispatch]);
 
   return (
-    <section className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col">
       <MenuHeader isStoreInitialized={isInitialized} />
-      <div className="grow">
+      <main className="grow">
         <Outlet context={{ isInitialized }} />
-      </div>
-      <div className="container flex items-center justify-between py-4 font-bold text-teal-500">
+      </main>
+      <footer className="container flex items-center justify-between py-4 font-bold text-teal-500">
         <span className="text-sm">Not Blocked, Not Reddit.</span>
         <span className="text-sm">Made by VallenDra</span>
-      </div>
-    </section>
+      </footer>
+    </div>
   );
 }

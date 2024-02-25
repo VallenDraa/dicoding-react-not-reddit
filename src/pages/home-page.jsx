@@ -75,10 +75,10 @@ export function HomePage() {
 
       <hr className="w-full border-gray-300 md:hidden" />
 
-      <div className="top-20 flex w-full flex-col-reverse gap-4 md:sticky md:w-auto md:basis-72">
+      <aside className="top-20 flex w-full flex-col-reverse gap-4 md:sticky md:w-auto md:basis-72 md:flex-col">
         <CategoryList />
         <Leaderboard />
-      </div>
+      </aside>
     </div>
   );
 }
