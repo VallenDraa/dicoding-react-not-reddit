@@ -3,8 +3,8 @@ import { tokenHandler } from '@/utils';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 
 export const AUTH_USER_ACTION_TYPE = {
-  SET: 'SET_AUTH_USER',
-  UNSET: 'UNSET_AUTH_USER',
+  SET: 'auth-user/set',
+  UNSET: 'auth-user/unset',
 };
 
 export const authUserActions = {

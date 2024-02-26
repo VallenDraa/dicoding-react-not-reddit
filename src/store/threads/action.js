@@ -3,15 +3,15 @@ import { showLoading, hideLoading } from 'react-redux-loading-bar';
 
 export const THREADS_ACTION_TYPE = {
   // Thread action types
-  CREATE: 'CREATE_THREADS',
-  SET: 'SET_THREADS',
-  UNSET: 'UNSET_THREADS',
+  CREATE: 'threads/create',
+  SET: 'threads/set',
+  UNSET: 'threads/unset',
 
   // Thread votes action types
-  UP_VOTE: 'UP_VOTE_THREADS',
-  DOWN_VOTE: 'DOWN_VOTE_THREADS',
-  NEUTRALIZE_UP_VOTE: 'NEUTRALIZE_UP_VOTE_THREADS',
-  NEUTRALIZE_DOWN_VOTE: 'NEUTRALIZE_DOWN_VOTE_THREADS',
+  UP_VOTE: 'threads/upvote',
+  DOWN_VOTE: 'threads/downvote',
+  NEUTRALIZE_UP_VOTE: 'threads/neutralize-upvote',
+  NEUTRALIZE_DOWN_VOTE: 'threads/neutralize-downvote',
 };
 
 export const threadsAction = {

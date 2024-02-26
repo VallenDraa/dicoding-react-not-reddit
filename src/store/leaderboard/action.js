@@ -2,8 +2,8 @@ import { leaderboardApi } from '@/api';
 import { hideLoading, showLoading } from 'react-redux-loading-bar';
 
 export const LEADERBOARD_ACTION_TYPE = {
-  SET: 'SET_LEADERBOARD',
-  UNSET: 'UNSET_LEADERBOARD',
+  SET: 'leaderboard/set',
+  UNSET: 'leaderboard/unset',
 };
 
 export const leaderboardActions = {

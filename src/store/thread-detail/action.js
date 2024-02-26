@@ -3,21 +3,21 @@ import { showLoading, hideLoading } from 'react-redux-loading-bar';
 
 export const THREAD_DETAIL_ACTION_TYPES = {
   // Thread detail action types
-  SET: 'SET_THREAD_DETAIL',
-  UNSET: 'UNSET_THREAD_DETAIL',
+  SET: 'thread-detail/set',
+  UNSET: 'thread-detail/unset',
 
   // Thread detail vote action types
-  UP_VOTE: 'UP_VOTE_THREAD_DETAIL',
-  DOWN_VOTE: 'DOWN_VOTE_THREAD_DETAIL',
-  NEUTRALIZE_UP_VOTE: 'NEUTRALIZE_UP_VOTE_THREAD_DETAIL',
-  NEUTRALIZE_DOWN_VOTE: 'NEUTRALIZE_DOWN_VOTE_THREAD_DETAIL',
+  UP_VOTE: 'thread-detail/upvote',
+  DOWN_VOTE: 'thread-detail/downvote',
+  NEUTRALIZE_UP_VOTE: 'thread-detail/neutralize-upvote',
+  NEUTRALIZE_DOWN_VOTE: 'thread-detail/neutralize-downvote',
 
   // Comment and comment vote action types
-  ADD_COMMENT: 'ADD_COMMENT_THREAD_DETAIL',
-  UP_VOTE_COMMENT: 'UP_VOTE_COMMENT_THREAD_DETAIL',
-  DOWN_VOTE_COMMENT: 'DOWN_VOTE_COMMENT_THREAD_DETAIL',
-  NEUTRALIZE_UP_VOTE_COMMENT: 'NEUTRALIZE_UP_VOTE_COMMENT_THREAD_DETAIL',
-  NEUTRALIZE_DOWN_VOTE_COMMENT: 'NEUTRALIZE_DOWN_VOTE_COMMENT_THREAD_DETAIL',
+  ADD_COMMENT: 'comment/add',
+  UP_VOTE_COMMENT: 'comment/upvote',
+  DOWN_VOTE_COMMENT: 'comment/downvote',
+  NEUTRALIZE_UP_VOTE_COMMENT: 'comment/neutralize-upvote',
+  NEUTRALIZE_DOWN_VOTE_COMMENT: 'comment/neutralize-downvote',
 };
 
 export const threadDetailActions = {

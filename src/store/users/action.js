@@ -2,8 +2,8 @@ import { usersApi } from '@/api';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 
 export const USERS_ACTION_TYPE = {
-  SET: 'SET_USERS',
-  UNSET: 'UNSET_USERS',
+  SET: 'users/set',
+  UNSET: 'users/unset',
 };
 
 export const usersActions = {
