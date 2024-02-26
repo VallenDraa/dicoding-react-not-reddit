@@ -1,3 +1,8 @@
+import {
+  useNavigate,
+  useOutletContext as useMainLayoutOutletContext,
+  useParams,
+} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import React from 'react';
 import {
@@ -6,10 +11,7 @@ import {
   NewThreadButton,
 } from '@/components/fragments';
 import { useAsyncSelector, useVoteFactory } from '@/hooks';
-import {
-  useOutletContext as useMainLayoutOutletContext,
-  useParams,
-} from 'react-router-dom';
+
 import { threadDetailThunks } from '@/store/thread-detail';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ThreadDetail } from '@/components/fragments/threads';
@@ -22,6 +24,8 @@ import { toast } from '@/components/ui/toast';
 import { leaderboardThunks } from '@/store/leaderboard';
 
 export function ThreadDetailPage() {
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const { isInitialized } = useMainLayoutOutletContext();
 
@@ -32,7 +36,14 @@ export function ThreadDetailPage() {
   const { threadId } = useParams();
   const [threadDetail, isThreadDetailInitialized] = useAsyncSelector(
     (states) => states.threadDetail,
-    () => dispatch(threadDetailThunks.asyncSet(threadId)),
+    React.useCallback(async () => {
+      try {
+        await dispatch(threadDetailThunks.asyncSet(threadId));
+      } catch (error) {
+        toast.error(error.message);
+        navigate('/');
+      }
+    }, [dispatch, navigate, threadId]),
   );
 
   const handleComment = async (newComment) => {
