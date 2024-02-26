@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { ScrollRestoration, Outlet } from 'react-router-dom';
 import { MenuHeader } from '@/components/fragments';
 import { useDispatch } from 'react-redux';
 import { usersThunks } from '@/store/users';
@@ -35,10 +35,11 @@ export function MainLayout() {
   }, [isInitialized, dispatch]);
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex flex-col min-h-screen">
       <MenuHeader isStoreInitialized={isInitialized} />
       <main className="grow">
         <Outlet context={{ isInitialized }} />
+        <ScrollRestoration/>
       </main>
       <footer className="container flex items-center justify-between py-4 font-bold text-teal-500">
         <span className="text-sm">Not Blocked, Not Reddit.</span>
