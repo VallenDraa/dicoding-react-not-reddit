@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import { toast } from '@/components/ui/toast';
 import { tokenHandler } from '@/utils';
 import axios from 'axios';
 
@@ -17,8 +18,7 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
-    // TODO: Handle error
-    console.error(error);
+    toast.error(error.message);
   },
 );
 

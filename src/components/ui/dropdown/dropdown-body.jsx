@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { cn } from '@/utils';
+import { Card } from '@/components/ui/card';
 import { useDropdownContext } from './use-dropdown-context';
-import { Card } from '../card';
 
 export function DropdownBody({ className, children }) {
   const { isOpen, isAnimating } = useDropdownContext();

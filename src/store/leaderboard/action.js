@@ -1,4 +1,5 @@
 import { leaderboardApi } from '@/api';
+import { hideLoading, showLoading } from 'react-redux-loading-bar';
 
 export const LEADERBOARD_ACTION_TYPE = {
   SET: 'SET_LEADERBOARD',
@@ -24,14 +25,16 @@ export const leaderboardActions = {
 export const leaderboardThunks = {
   asyncSetLeaderboard() {
     return async (dispatch) => {
+      dispatch(showLoading());
       const leaderboardData = await leaderboardApi.seeLeaderboard();
 
       if (leaderboardData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
+        dispatch(hideLoading());
         throw new Error(leaderboardData.message);
       }
 
       dispatch(leaderboardActions.set(leaderboardData.data.leaderboards));
+      dispatch(hideLoading());
     };
   },
 };

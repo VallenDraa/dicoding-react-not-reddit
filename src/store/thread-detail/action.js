@@ -1,4 +1,5 @@
 import { commentsApi, threadsApi, votesApi } from '@/api';
+import { showLoading, hideLoading } from 'react-redux-loading-bar';
 
 export const THREAD_DETAIL_ACTION_TYPES = {
   // Thread detail action types
@@ -102,26 +103,29 @@ export const threadDetailThunks = {
   // Thread detail thunk
   asyncSet(threadId) {
     return async (dispatch) => {
+      dispatch(showLoading());
       const threadDetailData = await threadsApi.seeThreadDetail(threadId);
 
       if (threadDetailData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
+        dispatch(hideLoading());
         throw new Error(threadDetailData.message);
       }
 
       dispatch(threadDetailActions.set(threadDetailData.data.detailThread));
+      dispatch(hideLoading());
     };
   },
 
   // Thread detail vote thunk
   asyncUpvote(threadId) {
     return async (dispatch, getState) => {
+      dispatch(showLoading());
       const { authUser } = getState();
 
       const votesData = await votesApi.upvoteThread(threadId);
 
       if (votesData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
+        dispatch(hideLoading());
         throw new Error(votesData.message);
       }
 
@@ -131,16 +135,18 @@ export const threadDetailThunks = {
           userId: authUser.id,
         }),
       );
+      dispatch(hideLoading());
     };
   },
   asyncDownvote(threadId) {
     return async (dispatch, getState) => {
+      dispatch(showLoading());
       const { authUser } = getState();
 
       const votesData = await votesApi.downvoteThread(threadId);
 
       if (votesData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
+        dispatch(hideLoading());
         throw new Error(votesData.message);
       }
 
@@ -150,16 +156,18 @@ export const threadDetailThunks = {
           userId: authUser.id,
         }),
       );
+      dispatch(hideLoading());
     };
   },
   asyncNeutralizeUpvote(threadId) {
     return async (dispatch, getState) => {
+      dispatch(showLoading());
       const { authUser } = getState();
 
       const votesData = await votesApi.neutralizeThreadVote(threadId);
 
       if (votesData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
+        dispatch(hideLoading());
         throw new Error(votesData.message);
       }
 
@@ -169,16 +177,18 @@ export const threadDetailThunks = {
           userId: authUser.id,
         }),
       );
+      dispatch(hideLoading());
     };
   },
   asyncNeutralizeDownvote(threadId) {
     return async (dispatch, getState) => {
+      dispatch(showLoading());
       const { authUser } = getState();
 
       const votesData = await votesApi.neutralizeThreadVote(threadId);
 
       if (votesData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
+        dispatch(hideLoading());
         throw new Error(votesData.message);
       }
 
@@ -188,19 +198,21 @@ export const threadDetailThunks = {
           userId: authUser.id,
         }),
       );
+      dispatch(hideLoading());
     };
   },
 
   // Comment and comment vote action types
   asyncAddComment({ threadId, content }) {
     return async (dispatch) => {
+      dispatch(showLoading());
       const commentData = await commentsApi.createThreadComment({
         threadId,
         content,
       });
 
       if (commentData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
+        dispatch(hideLoading());
         throw new Error(commentData.message);
       }
 
@@ -210,10 +222,12 @@ export const threadDetailThunks = {
           comment: commentData.data.comment,
         }),
       );
+      dispatch(hideLoading());
     };
   },
   asyncUpvoteComment({ commentId, threadId }) {
     return async (dispatch, getState) => {
+      dispatch(showLoading());
       const { authUser } = getState();
 
       const votesData = await votesApi.upvoteComment({
@@ -222,7 +236,7 @@ export const threadDetailThunks = {
       });
 
       if (votesData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
+        dispatch(hideLoading());
         throw new Error(votesData.message);
       }
 
@@ -232,10 +246,12 @@ export const threadDetailThunks = {
           userId: authUser.id,
         }),
       );
+      dispatch(hideLoading());
     };
   },
   asyncDownvoteComment({ commentId, threadId }) {
     return async (dispatch, getState) => {
+      dispatch(showLoading());
       const { authUser } = getState();
 
       const votesData = await votesApi.downvoteComment({
@@ -244,7 +260,7 @@ export const threadDetailThunks = {
       });
 
       if (votesData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
+        dispatch(hideLoading());
         throw new Error(votesData.message);
       }
 
@@ -254,10 +270,12 @@ export const threadDetailThunks = {
           userId: authUser.id,
         }),
       );
+      dispatch(hideLoading());
     };
   },
   asyncNeutralizeUpvoteComment({ commentId, threadId }) {
     return async (dispatch, getState) => {
+      dispatch(showLoading());
       const { authUser } = getState();
 
       const votesData = await votesApi.neutralizeCommentVote({
@@ -266,7 +284,7 @@ export const threadDetailThunks = {
       });
 
       if (votesData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
+        dispatch(hideLoading());
         throw new Error(votesData.message);
       }
 
@@ -276,10 +294,12 @@ export const threadDetailThunks = {
           userId: authUser.id,
         }),
       );
+      dispatch(hideLoading());
     };
   },
   asyncNeutralizeDownvoteComment({ commentId, threadId }) {
     return async (dispatch, getState) => {
+      dispatch(showLoading());
       const { authUser } = getState();
 
       const votesData = await votesApi.neutralizeCommentVote({
@@ -288,7 +308,7 @@ export const threadDetailThunks = {
       });
 
       if (votesData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
+        dispatch(hideLoading());
         throw new Error(votesData.message);
       }
 
@@ -298,6 +318,7 @@ export const threadDetailThunks = {
           userId: authUser.id,
         }),
       );
+      dispatch(hideLoading());
     };
   },
 };

@@ -1,4 +1,5 @@
 import { usersApi } from '@/api';
+import { showLoading, hideLoading } from 'react-redux-loading-bar';
 
 export const USERS_ACTION_TYPE = {
   SET: 'SET_USERS',
@@ -25,14 +26,16 @@ export const usersActions = {
 export const usersThunks = {
   asyncSeeAllUsers() {
     return async (dispatch) => {
+      dispatch(showLoading());
       const usersData = await usersApi.seeAllUsers();
 
       if (usersData.status === 'fail') {
-        // ? Should we throw error in thunk functions?
+        dispatch(hideLoading());
         throw new Error(usersData.message);
       }
 
       dispatch(usersActions.set(usersData.data.users));
+      dispatch(hideLoading());
     };
   },
 };

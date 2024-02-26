@@ -6,8 +6,8 @@ import {
   useParams,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Card } from '../ui/card';
-import { Skeleton } from '../ui/skeleton';
+import { Card } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function CategoryList({ className }) {
   const { category: activeCategory } = useParams();

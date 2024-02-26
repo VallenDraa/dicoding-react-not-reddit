@@ -1,5 +1,6 @@
 import { authUserApi } from '@/api';
 import { tokenHandler } from '@/utils';
+import { showLoading, hideLoading } from 'react-redux-loading-bar';
 
 export const AUTH_USER_ACTION_TYPE = {
   SET: 'SET_AUTH_USER',
@@ -26,7 +27,9 @@ export const authUserActions = {
 
 export const authUserThunks = {
   asyncRegister({ name, email, password }) {
-    return async () => {
+    return async (dispatch) => {
+      dispatch(showLoading());
+
       const response = await authUserApi.register({
         name,
         email,
@@ -34,9 +37,11 @@ export const authUserThunks = {
       });
 
       if (response.status === 'fail') {
-        // TODO: Handle error
+        dispatch(hideLoading());
         throw new Error(response.message);
       }
+
+      dispatch(hideLoading());
     };
   },
 
@@ -47,8 +52,10 @@ export const authUserThunks = {
         password,
       });
 
+      dispatch(showLoading());
+
       if (loginResponse.status === 'fail') {
-        // TODO: Handle error
+        dispatch(hideLoading());
         throw new Error(loginResponse.message);
       }
 
@@ -58,35 +65,40 @@ export const authUserThunks = {
       const userResponse = await authUserApi.seeOwnProfile();
 
       if (userResponse.status === 'fail') {
-        // TODO: Handle error
+        dispatch(hideLoading());
         throw new Error(userResponse.message);
       }
 
       dispatch(authUserActions.set(userResponse.data.user));
+      dispatch(hideLoading());
     };
   },
 
   asyncGetAuthUser() {
     return async (dispatch) => {
+      dispatch(showLoading());
       const userResponse = await authUserApi.seeOwnProfile();
 
       if (userResponse.status === 'fail') {
-        // TODO: Handle error
+        dispatch(hideLoading());
         throw new Error(userResponse.message);
       }
 
       dispatch(authUserActions.set(userResponse.data.user));
+      dispatch(hideLoading());
     };
   },
 
   asyncLogout() {
     return (dispatch) => {
       try {
+        dispatch(showLoading());
         tokenHandler.deleteAccessToken();
         dispatch(authUserActions.unset());
       } catch (error) {
-        // TODO: Handle error
         throw new Error(error);
+      } finally {
+        dispatch(hideLoading());
       }
     };
   },

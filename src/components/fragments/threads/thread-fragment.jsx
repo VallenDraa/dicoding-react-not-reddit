@@ -94,11 +94,15 @@ export function ThreadFragment({
           </Button>
         </div>
 
-        <div className="flex items-center gap-2 px-2 text-teal-500">
+        <Button
+          to={`/threads/${threadId}`}
+          variant="link"
+          className="flex items-center gap-2 px-2 text-teal-500"
+        >
           <span className="sr-only">Total Comments</span>
           <IconMessage />
           <span>{totalComments}</span>
-        </div>
+        </Button>
       </div>
     </Card>
   );
