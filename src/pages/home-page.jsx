@@ -54,7 +54,8 @@ export function HomePage() {
         title="Latest Threads"
         className="w-full animate-in md:w-3/4"
       >
-        {isInitialized ? (
+        {isInitialized &&
+          filteredThreads.length > 0 &&
           filteredThreads?.map((thread) => (
             <Thread
               authUserId={authUser?.id}
@@ -70,8 +71,15 @@ export function HomePage() {
               key={thread.id}
               thread={thread}
             />
-          ))
-        ) : (
+          ))}
+
+        {isInitialized && filteredThreads.length === 0 && (
+          <p className="my-5 text-center text-gray-500">
+            There are no threads to be found.
+          </p>
+        )}
+
+        {!isInitialized && (
           <Skeleton
             amount={4}
             gap={16}

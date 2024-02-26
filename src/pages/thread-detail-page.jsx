@@ -76,6 +76,7 @@ export function ThreadDetailPage() {
           />
 
           <CommentInput
+            authUserId={authUser?.id}
             onSubmit={handleComment}
             className="rounded-t-none border-t-0 duration-300 animate-in fade-in"
           />
@@ -83,24 +84,30 @@ export function ThreadDetailPage() {
           <hr className="my-4 w-full border-gray-300" />
 
           <CommentsList totalComments={threadDetail?.comments.length}>
-            {threadDetail?.comments.map((comment) => (
-              <Comment
-                threadId={threadId}
-                authUserId={authUser?.id}
-                comment={comment}
-                key={comment.id}
-                onUpvote={voteFactory(threadDetailThunks.asyncUpvoteComment)}
-                onDownvote={voteFactory(
-                  threadDetailThunks.asyncDownvoteComment,
-                )}
-                onNeutralizeUpvote={voteFactory(
-                  threadDetailThunks.asyncNeutralizeUpvoteComment,
-                )}
-                onNeutralizeDownvote={voteFactory(
-                  threadDetailThunks.asyncNeutralizeDownvoteComment,
-                )}
-              />
-            ))}
+            {threadDetail?.comments.length > 0 ? (
+              threadDetail?.comments.map((comment) => (
+                <Comment
+                  threadId={threadId}
+                  authUserId={authUser?.id}
+                  comment={comment}
+                  key={comment.id}
+                  onUpvote={voteFactory(threadDetailThunks.asyncUpvoteComment)}
+                  onDownvote={voteFactory(
+                    threadDetailThunks.asyncDownvoteComment,
+                  )}
+                  onNeutralizeUpvote={voteFactory(
+                    threadDetailThunks.asyncNeutralizeUpvoteComment,
+                  )}
+                  onNeutralizeDownvote={voteFactory(
+                    threadDetailThunks.asyncNeutralizeDownvoteComment,
+                  )}
+                />
+              ))
+            ) : (
+              <p className="my-5 text-center text-gray-500">
+                This thread has no comments yet.
+              </p>
+            )}
           </CommentsList>
         </div>
       ) : (
