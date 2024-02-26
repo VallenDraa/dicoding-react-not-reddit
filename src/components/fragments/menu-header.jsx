@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { IconListDetails, IconLogout } from '@tabler/icons-react';
+import { IconTrophy, IconListDetails, IconLogout } from '@tabler/icons-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -22,6 +22,10 @@ export function MenuHeader({ isStoreInitialized }) {
 
   const dispatch = useDispatch();
   const authUser = useSelector((states) => states.authUser);
+  const leaderboard = useSelector((states) => states.leaderboard);
+  const userPoint = authUser
+    ? leaderboard?.find((item) => item.user.id === authUser.id)?.score ?? 0
+    : 0;
 
   const [isUserMenuOpen, setIsUserMenuOpen] = React.useState(false);
 
@@ -97,6 +101,11 @@ export function MenuHeader({ isStoreInitialized }) {
               </Button>
             </Dropdown.Trigger>
             <Dropdown.Body>
+              <Dropdown.Item disabled className="font-bold text-teal-500">
+                <IconTrophy size={20} />
+                {`${userPoint} Points`}
+              </Dropdown.Item>
+
               <Dropdown.Item onClick={handleLogout}>
                 <IconLogout size={20} />
                 Log Out
